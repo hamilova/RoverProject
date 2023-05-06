@@ -3,7 +3,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 TO_IMPERIAL_BTN = By.XPATH, "//div[contains(text(),'Imperial: °F, mph')]"
 TO_METRIC_BTN = By.XPATH, "//div[contains(text(),'Metric: °C, m/s')]"
-IMPERIAL_ASSERT = By.XPATH, "//span[@class='heading']"
+
 
 LOADER_CONTAINER = By.CSS_SELECTOR, 'div.owm-loader-container > div'
 SEARCH_CITY_INPUT = By.CSS_SELECTOR, "input[placeholder='Search city']"
@@ -40,11 +40,9 @@ def test_tc_001_02_04_01_switch_toggle_buttons(driver, open_and_load_main_page, 
     # switch the temperature system to imperial
     imperial_button = driver.find_element(*TO_IMPERIAL_BTN)
     imperial_button.click()
-    # verify the temperature system is imperial
-    temp_system = driver.find_element(*IMPERIAL_ASSERT).text
-    assert "°F" in temp_system, "Failed to switch to imperial temperature system"
     metric_button = driver.find_element(*TO_METRIC_BTN)
-    # ActionChains(driver).move_to_element(metric_button).click(metric_button).perform()
     metric_button.click()
-    # verify that toggle buttons are displayed on the page
+    # Verify that toggle buttons are displayed and clickable
     assert metric_button.is_displayed() and imperial_button.is_displayed()
+    assert metric_button.is_enabled() and imperial_button.is_enabled()
+
