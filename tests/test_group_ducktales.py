@@ -34,19 +34,15 @@ def test_tc_001_01_02_verify_dropdown_options_contain_valid_value(driver, open_a
 
 
 # TC_001.02.04_01 | Main page> Search city widget > Verify the buttons for metric and imperial are visible and clickable
-def test_tc_001_02_04_01_switch_toggle_buttons(driver):
-    driver.get('https://openweathermap.org/')
+def test_tc_001_02_04_01_switch_toggle_buttons(driver, open_and_load_main_page, wait):
     # switch the temperature system to imperial
-    imperial_button = WebDriverWait(driver, 15).until(EC.element_to_be_clickable(
-        (By.XPATH, "//div[contains(text(),'Imperial: °F, mph')]")))
+    imperial_button = driver.find_element(By.XPATH, "//div[contains(text(),'Imperial: °F, mph')]")
     time.sleep(5)
     imperial_button.click()
     # verify the temperature system is imperial
-    temp_system = WebDriverWait(driver, 15).until(EC.presence_of_element_located(
-        (By.XPATH, "//span[@class='heading']"))).text
+    temp_system = driver.find_element(By.XPATH, "//span[@class='heading']").text
     assert "°F" in temp_system, "Failed to switch to imperial temperature system"
-    metric_button = WebDriverWait(driver, 20).until(EC.element_to_be_clickable(
-        (By.XPATH, "//div[contains(text(),'Metric: °C, m/s')]")))
+    metric_button = driver.find_element(By.XPATH, "//div[contains(text(),'Metric: °C, m/s')]")
     # ActionChains(driver).move_to_element(metric_button).click(metric_button).perform()
     metric_button.click()
     # verify that toggle buttons are displayed on the page
