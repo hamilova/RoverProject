@@ -29,3 +29,12 @@ def test_TC_006_02_01_Verify_display_of_How_to_Start_section(driver, open_and_lo
     driver.find_element(*BTN_DASHBOARD).click()
     section = driver.find_element(*TITLE_HOW_TO_START)
     assert section.is_displayed(), "Section not found"
+
+
+def test_TC_002_03_06_dashboard_link_opens_correct_page(driver,open_and_load_main_page, wait):
+    wait.until(EC.element_to_be_clickable(DASHBOARD_LINK))
+    dashboard_tab = driver.find_element(*DASHBOARD_LINK)
+    dashboard_tab.click()
+    expected_url = 'https://openweathermap.org/weather-dashboard'
+    assert driver.current_url == expected_url
+
