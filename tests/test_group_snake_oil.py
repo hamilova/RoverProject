@@ -101,6 +101,7 @@ def test_tc_015_01_03_verify_support_faq_page_redirection(driver, open_and_load_
     dropdown.click()
     element = wait.until(EC.visibility_of_element_located(FAQ_element))
     element.click()
-    url = wait.until(EC.url_to_be(FAQ_url))
-    assert url, f"Page redirection failed. Expected: {FAQ_url}, Actual: {driver.current_url}"
+    current_url = driver.current_url
+    wait.until(EC.url_to_be(FAQ_url))
+    assert current_url == FAQ_url, f"Page redirection failed. Expected: {FAQ_url}, Actual: {driver.current_url}"
 
