@@ -32,6 +32,8 @@ all_link_locators = [SIGN_UP_LINK, USERNAME_AND_PASSWORD_LINK, GO_TO_DASHBOARD_L
 
 # Footer
 linkedIn_icon = (By.CSS_SELECTOR, "div[class='social'] a:nth-child(3)")
+Support_dropdown = (By.XPATH, "//*[@id='support-dropdown']")
+FAQ_element = (By.XPATH, "//*[@id='support-dropdown-menu']/li[1]/a")
 
 
 def test_tc_003_10_06_verify_linkedIn_link_is_visible(driver, open_and_load_main_page, wait):
@@ -77,3 +79,11 @@ def test_TC_006_02_04_verify_all_links_redirecting_to_the_respective_pages(drive
         status_code = request.status_code
     assert href_link == current_url and status_code == 200, \
         f"This URL '{href_link}' is redirecting to '{current_url}' URL. Status code = {status_code}"
+
+
+def test_tc_015_01_01_verify_support_faq_is_visible(driver, open_and_load_main_page, wait):
+    dropdown = wait.until(EC.visibility_of_element_located(Support_dropdown))
+    dropdown.click()
+    element = wait.until(EC.visibility_of_element_located(FAQ_element))
+    assert element.is_displayed(), "FAQ element is not visible on the page"
+
