@@ -87,3 +87,10 @@ def test_tc_015_01_01_verify_support_faq_is_visible(driver, open_and_load_main_p
     element = wait.until(EC.visibility_of_element_located(FAQ_element))
     assert element.is_displayed(), "FAQ element is not visible on the page"
 
+
+def test_tc_015_01_02_verify_support_faq_is_clickable(driver, open_and_load_main_page, wait):
+    dropdown = wait.until(EC.visibility_of_element_located(Support_dropdown))
+    dropdown.click()
+    element = wait.until(EC.element_to_be_clickable(FAQ_element))
+    assert element.is_enabled(), "FAQ element is not clickable on the page"
+
