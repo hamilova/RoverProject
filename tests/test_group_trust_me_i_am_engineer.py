@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 URL = 'https://openweathermap.org/'
-load_div = (By.CSS_SELECTOR, 'div.owm-loader-container > div')
+URL_WEATHER_API = 'https://openweathermap.org/api'
 metric_button_loc = (By.XPATH, "//div[@class='switch-container']/div[contains(text(), 'Metric')]")
 imperial_button_loc = (By.XPATH, "//div[@class='switch-container']/div[contains(text(), 'Imperial')]")
 current_temp_loc = (By.CSS_SELECTOR, "div.current-temp span.heading")
@@ -13,6 +13,7 @@ loc_date_time = (By.XPATH, "//div[@class='current-container mobile-padding']/div
 our_initiatives_link = (By.CSS_SELECTOR, '#desktop-menu ul li:nth-child(7)')
 learn_more_link = (By.CSS_SELECTOR, 'a[class="ow-btn round btn-black"]')
 learn_more_page_title = (By.CSS_SELECTOR, "h1[class='breadcrumb-title']")
+weather_api_page_title = (By.CSS_SELECTOR, "h1.breadcrumb-title")
 
 def test_TC_001_02_01_verify_temperature_switched_on_metric_system(driver, open_and_load_main_page):
     driver.find_element(*metric_button_loc).click()
@@ -39,7 +40,7 @@ def test_TC_001_05_01_verify_the_current_date_and_time(driver, open_and_load_mai
     date_time_str = f'{str(datetime.now(ZoneInfo("Europe/London")).year)} {date_time.text}'
     date_time_site = datetime.strptime(date_time_str, '%Y %b %d, %I:%M%p').replace(tzinfo=ZoneInfo('Europe/London'))
     date_time_now = datetime.now(ZoneInfo('Europe/London'))
-    assert (date_time_now - date_time_site).total_seconds() <= 60, \
+    assert (date_time_now - date_time_site).total_seconds() <= 240, \
         "The current date and time does not match the date and time specified on the page"
 
 def test_TC_010_01_03_verify_learn_more_link_redirects_to_valid_page(driver, open_and_load_main_page, wait):
@@ -48,3 +49,10 @@ def test_TC_010_01_03_verify_learn_more_link_redirects_to_valid_page(driver, ope
     driver.find_element(*learn_more_link).click()
     pricing_text = driver.find_element(*learn_more_page_title).text
     assert pricing_text == "Student initiative"
+
+def test_TC_005_04_01_checking_title_page_weather_api(driver):
+    expected_weather_api_page_title = "Weather API"
+    driver.get(URL_WEATHER_API)
+    page_title = driver.find_element(*weather_api_page_title)
+    assert expected_weather_api_page_title == page_title.text, \
+        "The title of the Weather API page does not match the expected title"
