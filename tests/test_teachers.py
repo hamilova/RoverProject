@@ -66,7 +66,6 @@ def test_TC_000_00_06_verify_result_of_city_searching_is_valid(driver, open_and_
     actual_city = driver.find_element(*displayed_city).text
     assert expected_city in actual_city
 
-
 def test_TC_000_00_07_verify_search_button_is_clickable(driver, open_and_load_main_page, wait):
     search_city_input = driver.find_element(*search_city_field)
     search_city_input.send_keys('Paris')
